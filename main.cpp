@@ -42,8 +42,13 @@ struct Visitor
     age(myAge)
     {}
 
-    FIXME 2) add destructors
+    ~Visitor();
 };
+
+Visitor::~Visitor()
+{
+    std::cout << "See you " << age << "!" << std::endl;
+}
 
 struct ShoppingMall
 {
@@ -61,14 +66,16 @@ struct ShoppingMall
         int salePercent = 30;
         std::vector<std::string> shops; // dunno why I get this padding warning
         double applyDiscount();
-        FIXME 2) add destructors
+        
+        ~MensClothing();
     };
 
     struct Cosmetics
     {
         int numOfPopUpStores;
         void greetCustomer();
-        FIXME 2) add destructors
+
+        ~Cosmetics();
     };
 
     void superviseArea();
@@ -84,6 +91,16 @@ ShoppingMall::ShoppingMall(int visitors, int cameras)
 ShoppingMall::~ShoppingMall() 
 {
     std::cout << "Bye bye, ShoppingMall!" << std::endl;
+}
+
+ShoppingMall::MensClothing::~MensClothing()
+{
+    std::cout << "Thanks for your visit!" << std::endl;
+}
+
+ShoppingMall::Cosmetics::~Cosmetics()
+{
+    std::cout << "Thanks for your visit!" << std::endl;
 }
 
 double ShoppingMall::MensClothing::applyDiscount()
@@ -152,7 +169,8 @@ struct Shape
         double radius;
         Circle(double yourRadius) {radius = yourRadius;}
         double computeArea();
-        FIXME 2) add destructors
+        
+        ~Circle();
     };
 
     Circle generateRandomCircle(double minValue, double maxValue);
@@ -167,6 +185,11 @@ Shape::Shape(std::string yourColor)
 Shape::~Shape()
 {
     std::cout << color << " shape destructed." << std::endl;
+}
+
+Shape::Circle::~Circle()
+{
+    std::cout << "G*** circle." << std::endl;
 }
 
 double Shape::Circle::computeArea()
@@ -315,7 +338,7 @@ shape(color)
 
 Paint::~Paint()
 {
-    std::cout << "Paint is destructed before " << myShape->color << " circle." << std::endl;
+    std::cout << "Paint is destructed before " << myShape->color << " shape." << std::endl;
 }
 
 void Paint::generatePaint(std::string paint)
