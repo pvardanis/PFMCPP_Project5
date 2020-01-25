@@ -41,6 +41,8 @@ struct Visitor
     name(myName),
     age(myAge)
     {}
+
+    FIXME 2) add destructors
 };
 
 struct ShoppingMall
