@@ -61,12 +61,14 @@ struct ShoppingMall
         int salePercent = 30;
         std::vector<std::string> shops; // dunno why I get this padding warning
         double applyDiscount();
+        FIXME 2) add destructors
     };
 
     struct Cosmetics
     {
         int numOfPopUpStores;
         void greetCustomer();
+        FIXME 2) add destructors
     };
 
     void superviseArea();
@@ -150,6 +152,7 @@ struct Shape
         double radius;
         Circle(double yourRadius) {radius = yourRadius;}
         double computeArea();
+        FIXME 2) add destructors
     };
 
     Circle generateRandomCircle(double minValue, double maxValue);
