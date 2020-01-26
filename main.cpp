@@ -34,7 +34,12 @@ namespace example
     {
         MyFoo() { std::cout << "creating MyFoo" << std::endl; }
         ~MyFoo() { std::cout << "destroying MyFoo" << std::endl; }
-        void memberFunc() { std::cout << "MyFoo returnValue(): " << this->returnValue() << " and MyFoo memberVariable: " << this->memberVariable << std::endl; }  //3)
+        
+        void memberFunc() 
+        { 
+            std::cout << "MyFoo returnValue(): " << this->returnValue() << " and MyFoo memberVariable: " << this->memberVariable << std::endl; 
+        }  //3)
+        
         int returnValue() { return 3; }
         float memberVariable = 3.14f;
     };
@@ -46,34 +51,6 @@ namespace example
         return 0;
     }
 }
-
-/*
- copied UDT 1:
- */
-
-/*
- copied UDT 2:
- */
-
-/*
- copied UDT 3:
- */
-
-/*
- new UDT 4:
- */
-
-/*
- new UDT 5:
- */
-
-#include <iostream>
-int main()
-{
-    example::main();
-    std::cout << "good to go!" << std::endl;
-}
-
 
 #include <cmath>
 #include <bits/stdc++.h> 
@@ -217,7 +194,8 @@ struct Shape
     struct Circle
     {
         double radius;
-        Circle(double yourRadius) {radius = yourRadius;}
+        Circle() {}
+        Circle(double yourRadius) {this->radius = yourRadius;}
         double computeArea();
         
         ~Circle();
@@ -228,25 +206,25 @@ struct Shape
 
 Shape::Shape(std::string yourColor) 
 {
-    color = yourColor;
-    std::cout << color << " shape constructed." << std::endl;
+    this->color = yourColor;
+    std::cout << this->color << " shape constructed." << std::endl;
 }
 
 Shape::~Shape()
 {
-    std::cout << color << " shape destructed." << std::endl;
+    std::cout << this->color << " shape destructed." << std::endl;
 }
 
 Shape::Circle::~Circle()
 {
-    std::cout << "G*** circle." << std::endl;
+    std::cout << "Circle destructed. G*** circle." << std::endl;
 }
 
 double Shape::Circle::computeArea()
 {
     double area;
     area = M_PI * pow(radius, 2);
-    std::cout << "Circle of " << area << " m^2." << std::endl; 
+    // std::cout << "Circle of " << area << " m^2." << std::endl; 
     return area;
 }
 
@@ -279,6 +257,12 @@ struct Kitchen
     Kitchen(std::vector<std::string> myStock, std::vector<std::string> myRecipe);
     ~Kitchen();
 
+    void printRecipe()
+    {
+        std::cout << "Kitchen: " << this->food << std::endl;
+    }
+
+    std::string food = "spaghetti";
     void makeSalad();
     bool fillBowl(bool hasIt, std::string item);
 };
@@ -290,28 +274,28 @@ stock(myStock)
 
 Kitchen::~Kitchen()
 {
-    if (fridgeIsEmpty)
+    if (this->fridgeIsEmpty)
     {
-        std::cout << "Fridge is empty. F*** off kitchen!" << std::endl;
+        std::cout << "Kitchen destructed. Fridge is empty. F*** off kitchen!" << std::endl;
     }
     else
     {
-        std::cout << "Nice meal!" << std::endl;
+        std::cout << "Kitchen destructed. Nice meal!" << std::endl;
     }
 }
 
 void Kitchen::makeSalad()
 {
-    for (auto it1 = recipe.begin(); it1 != recipe.end(); ++it1)
+    for (auto it1 = this->recipe.begin(); it1 != this->recipe.end(); ++it1)
     {
         std::string ingredient = *it1;
         bool filled = false;
-        for (auto it2 = stock.begin(); it2 != stock.end(); ++it2) // this it overwrites the "it" above in this scope
+        for (auto it2 = this->stock.begin(); it2 != this->stock.end(); ++it2) // this it overwrites the "it" above in this scope
         {
             std::string inStock = *it2;
             if (inStock == ingredient)
             {
-                filled = fillBowl(true, ingredient);
+                filled = this->fillBowl(true, ingredient);
                 break;
             }
         }
@@ -341,6 +325,13 @@ struct DailyActivities
     ShoppingMall::MensClothing shop;
     ShoppingMall::MensClothing* myShop = &shop;
         
+    void printVariables()
+    {
+        std::cout << "DailyActivities: We have " << this->myShop->salePercent << "% discount today. Total cost is: " << this->myShop->applyDiscount() << "." << std::endl;    
+    }
+
+    Kitchen kitchen;
+    
     DailyActivities();
     ~DailyActivities();
 };
@@ -348,22 +339,15 @@ struct DailyActivities
 DailyActivities::DailyActivities() 
 {
     // I guess I could do that in struct's body as well
-    std::cout << "Let's go shopping!" << std::endl;
-    myShop->totalCost = 175.5;
-    myShop->salePercent = 30;
+    std::cout << "DailyActivities constructed. Let's go shopping!" << std::endl;
+    this->myShop->totalCost = 175.5;
+    this->myShop->salePercent = 30;
 }
 
 DailyActivities::~DailyActivities()
 {
-    std::cout << "We have " << myShop->salePercent << "% discount today. Total cost is: " << myShop->applyDiscount() << "." << std::endl;
-
+    std::cout << "DailyActivities destructed." << std::endl;
     std::cout << "Time to eat!" << std::endl;
-    std::vector<std::string> stock = {"onion", "tomatoes", "peppers", "feta", "potatoes"};
-    std::vector<std::string> recipe = {"onion", "tomatoes", "feta"};
-
-    Kitchen kitchen(stock, recipe);
-    Kitchen* myKitchen = &kitchen;
-    myKitchen->makeSalad();
 }
 
 /*
@@ -375,28 +359,35 @@ struct Paint
     Shape shape;
     Shape* myShape = &shape;
     Paint(std::string color);
+    Paint();
     ~Paint();
 
-    void generatePaint(std::string paint);
+    void generatePaint(std::string paint);    
+
+    void printArea()
+    {
+        std::cout << "Circle: Circle of " << this->circle.computeArea() << "m^2." << std::endl; 
+    }
+
+    Shape::Circle circle;
 };
 
 Paint::Paint(std::string color) :
 shape(color)
 {
-    std::cout << "Created shape of " << myShape->color << " color!" << std::endl;
+    std::cout << "Created paint with shape of " << this->myShape->color << " color!" << std::endl;
 }
 
 Paint::~Paint()
 {
-    std::cout << "Paint is destructed before " << myShape->color << " shape." << std::endl;
+    std::cout << "Paint is destructed before " << this->myShape->color << " shape." << std::endl;
 }
 
 void Paint::generatePaint(std::string paint)
 {
     if (paint == "circle")
     {
-        Shape::Circle circle = myShape->generateRandomCircle(1.0, 5.5);
-        circle.computeArea();
+        this->circle = this->myShape->generateRandomCircle(1.0, 5.5);
     }
 }
 
@@ -404,7 +395,14 @@ int main()
 {
     example::main();
     DailyActivities dailyActivities;
+    std::cout << "dailyActivities: We have " << dailyActivities.myShop->salePercent << "% discount today. Total cost is: " << dailyActivities.myShop->applyDiscount() << "." << std::endl;  
+    dailyActivities.printVariables();
+
+    std::cout << "kitchen: " << dailyActivities.kitchen.food << std::endl;
+    dailyActivities.kitchen.printRecipe();
+
     Paint paint("red");
     paint.generatePaint("circle");
-    std::cout << "* This is printed before any variable destruction. That's how lifetime works! That's why the message 'We have 30% discount today... etc.' appears at the end of this program, because it's being executed inside dailyActivities's destructor and dailyActivities was created before paint (destruction follows the reverse order of construction) *" << std::endl;
+    std::cout << "circle: Circle of " << paint.circle.computeArea() << " m^2." << std::endl;
+    paint.printArea();
 }
