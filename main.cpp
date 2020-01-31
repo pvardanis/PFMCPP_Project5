@@ -30,6 +30,7 @@ Create a branch named Part3
 #include <cmath>
 #include <bits/stdc++.h> 
 #include <iostream>
+#include "LeakedObjectDetector.h"
 /*
  copied UDT 1:
 */
@@ -82,6 +83,8 @@ struct ShoppingMall
 
     void superviseArea();
     void performCheck(std::vector<Visitor> customerDetails);
+
+    JUCE_LEAK_DETECTOR(ShoppingMall)
 };
 
 ShoppingMall::ShoppingMall(int visitors, int cameras) 
@@ -177,6 +180,7 @@ struct Shape
     };
 
     Circle generateRandomCircle(double minValue, double maxValue);
+    JUCE_LEAK_DETECTOR(Shape)
 };
 
 Shape::Shape(std::string yourColor) 
@@ -240,6 +244,8 @@ struct Kitchen
     std::string food = "spaghetti";
     void makeSalad();
     bool fillBowl(bool hasIt, std::string item);
+
+    JUCE_LEAK_DETECTOR(Kitchen)
 };
 
 Kitchen::Kitchen(std::vector<std::string> myStock, std::vector<std::string> myRecipe) : 
@@ -309,6 +315,8 @@ struct DailyActivities
     
     DailyActivities();
     ~DailyActivities();
+
+    JUCE_LEAK_DETECTOR(DailyActivities)
 };
 
 DailyActivities::DailyActivities() 
@@ -324,6 +332,17 @@ DailyActivities::~DailyActivities()
     std::cout << "DailyActivities destructed." << std::endl;
     std::cout << "Time to eat!" << std::endl;
 }
+
+struct DailyActivitiesWrapper
+{
+    DailyActivitiesWrapper( DailyActivities* ptr ) : pointerToDailyActivities( ptr ) {}
+    ~DailyActivitiesWrapper()
+    {
+        delete pointerToDailyActivities;
+    }
+
+    DailyActivities* pointerToDailyActivities = nullptr; 
+};
 
 /*
  new UDT 5:
@@ -345,6 +364,8 @@ struct Paint
     }
 
     Shape::Circle circle;
+    
+    JUCE_LEAK_DETECTOR(Paint)
 };
 
 Paint::Paint(std::string color) :
@@ -366,18 +387,37 @@ void Paint::generatePaint(std::string paint)
     }
 }
 
+struct PaintWrapper
+{
+    PaintWrapper( Paint* ptr ) : pointerToPaint( ptr ) {}
+    ~PaintWrapper()
+    {
+        delete pointerToPaint;
+    }
+
+    Paint* pointerToPaint = nullptr; 
+};
+
 int main()
 {
-    example::main();
-    DailyActivities dailyActivities;
-    std::cout << "dailyActivities: We have " << dailyActivities.myShop->salePercent << "% discount today. Total cost is: " << dailyActivities.myShop->applyDiscount() << "." << std::endl;  
-    dailyActivities.printVariables();
 
-    std::cout << "kitchen: " << dailyActivities.kitchen.food << std::endl;
-    dailyActivities.kitchen.printRecipe();
+    DailyActivitiesWrapper dailyActivitiesWrapper(new DailyActivities);
+    // DailyActivities dailyActivities;
+    // std::cout << "dailyActivities: We have " << dailyActivities.myShop->salePercent << "% discount today. Total cost is: " << dailyActivities.myShop->applyDiscount() << "." << std::endl;  
+    // dailyActivities.printVariables();
+    std::cout << "dailyActivities: We have " << dailyActivitiesWrapper.pointerToDailyActivities->myShop->salePercent << "% discount today. Total cost is: " << dailyActivitiesWrapper.pointerToDailyActivities->myShop->applyDiscount() << "." << std::endl;  
+    dailyActivitiesWrapper.pointerToDailyActivities->printVariables();
 
-    Paint paint("red");
-    paint.generatePaint("circle");
-    std::cout << "circle: Circle of " << paint.circle.computeArea() << " m^2." << std::endl;
-    paint.printArea();
+
+    std::cout << "kitchen: " << dailyActivitiesWrapper.pointerToDailyActivities->kitchen.food << std::endl;
+    dailyActivitiesWrapper.pointerToDailyActivities->kitchen.printRecipe();
+
+    PaintWrapper paintWrapper(new Paint("red"));
+    // Paint paint("red");
+    // paint.generatePaint("circle");
+    // std::cout << "circle: Circle of " << paint.circle.computeArea() << " m^2." << std::endl;
+    // paint.printArea();
+    paintWrapper.pointerToPaint->generatePaint("circle");
+    std::cout << "circle: Circle of " << paintWrapper.pointerToPaint->circle.computeArea() << " m^2." << std::endl;
+    paintWrapper.pointerToPaint->printArea();
 }
