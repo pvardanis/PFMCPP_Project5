@@ -10,7 +10,7 @@ struct ShoppingMall
     int numCameras;
     double dailyEarnings;
 
-    ShoppingMall() {}
+    ShoppingMall() {}  5) NO IN-CLASS IMPLEMENTATION ALLOWED.
     ShoppingMall(int visitors, int cameras);
     ~ShoppingMall();
 

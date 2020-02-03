@@ -10,7 +10,7 @@ struct Kitchen
     std::vector<std::string> recipe;
     std::vector<std::string> stock;
 
-    Kitchen() {}
+    Kitchen() {} FIXME  5) NO IN-CLASS IMPLEMENTATION ALLOWED.
     Kitchen(std::vector<std::string> myStock, std::vector<std::string> myRecipe);
     ~Kitchen();
 

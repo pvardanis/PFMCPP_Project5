@@ -1,2 +1,2 @@
 language = "cpp"
-run = "clang++ -std=c++17 -Weverything -Wno-newline-eof -Wno-c++98-compat-pedantic -Wno-c++98-compat -Wno-missing-prototypes -Wno-padded -Wno-exit-time-destructors -Wno-deprecated main.cpp DailyActivities.cpp Kitchen.cpp Paint.cpp Shape.cpp ShoppingMall.cpp Visitor.cpp Wrappers.cpp && ./a.out"
+run = "clang++ -std=c++17 -Weverything -Wno-c++98-compat-pedantic -Wno-c++98-compat -Wno-missing-prototypes -Wno-padded -Wno-exit-time-destructors -Wno-deprecated main.cpp DailyActivities.cpp Kitchen.cpp Paint.cpp Shape.cpp ShoppingMall.cpp Visitor.cpp Wrappers.cpp && ./a.out"

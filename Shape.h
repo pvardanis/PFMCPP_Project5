@@ -15,8 +15,8 @@ struct Shape
     struct Circle
     {
         double radius;
-        Circle() {}
-        Circle(double yourRadius) {this->radius = yourRadius;}
+        Circle() {}  5) NO IN-CLASS IMPLEMENTATION ALLOWED.
+        Circle(double yourRadius) {this->radius = yourRadius;}  5) NO IN-CLASS IMPLEMENTATION ALLOWED.
         double computeArea();
         
         ~Circle();
