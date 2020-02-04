@@ -1,6 +1,8 @@
 #include "ShoppingMall.h"
 #include <iostream>
 
+ShoppingMall::ShoppingMall() {}
+
 ShoppingMall::ShoppingMall(int visitors, int cameras) 
 {
     numVisitors = visitors;

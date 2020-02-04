@@ -1,6 +1,8 @@
 #include "Kitchen.h"
 #include <iostream>
 
+Kitchen::Kitchen() {}
+
 Kitchen::Kitchen(std::vector<std::string> myStock, std::vector<std::string> myRecipe) : 
 recipe(myRecipe),
 stock(myStock) 

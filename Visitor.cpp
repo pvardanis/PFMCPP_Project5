@@ -1,7 +1,7 @@
 #include "Visitor.h"
 #include <iostream>
 
-Visitor(std::string myName, int myAge) :
+Visitor::Visitor(std::string myName, int myAge) :
 name(myName),
 age(myAge)
 {}

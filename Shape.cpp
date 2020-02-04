@@ -16,10 +16,14 @@ Shape::~Shape()
     std::cout << this->color << " shape destructed." << std::endl;
 }
 
+Shape::Circle::Circle() {}
+
 Shape::Circle::~Circle()
 {
     std::cout << "Circle destructed. G*** circle." << std::endl;
 }
+
+Shape::Circle::Circle(double yourRadius) {this->radius = yourRadius;}
 
 double Shape::Circle::computeArea()
 {
